@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Daily Habits" />
+  <meta name="theme-color" content="#12121C" />
+  <title>Daily Habits</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+      background: #12121C;
+      color: #E8E8F0;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+    }
+
+    #app {
+      max-width: 430px;
+      margin: 0 auto;
+      padding-bottom: 48px;
+    }
+
+    /* ── Header ── */
+    .header {
+      padding: calc(env(safe-area-inset-top) + 40px) 24px 24px;
+      background: linear-gradient(180deg, #1A1A2E 0%, #12121C 100%);
+      border-bottom: 1px solid #1F1F30;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+
+    .day-label {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #E8E8F0;
+    }
+
+    .date-label {
+      font-size: 14px;
+      color: #888;
+      margin-top: 3px;
+    }
+
+    .reset-btn {
+      background: none;
+      border: 1px solid #2A2A3A;
+      color: #888;
+      font-size: 20px;
+      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── Progress ── */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: #2A2A3A;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.4s ease;
+      background: linear-gradient(90deg, #F4A24D, #8B78D8);
+    }
+
+    .progress-fill.complete {
+      background: #5CC98A;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+      min-width: 72px;
+      text-align: right;
+    }
+
+    /* ── Body ── */
+    .body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: #1A1A28;
+      border-radius: 18px;
+      padding: 4px 16px 8px;
+      border: 1px solid #222233;
+    }
+
+    /* ── Task item ── */
+    .item-wrap {
+      border-top: 1px solid #222233;
+    }
+
+    .item-wrap:first-child {
+      border-top: none;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 0 8px;
+      transition: opacity 0.2s;
+    }
+
+    .item-row.done {
+      opacity: 0.45;
+    }
+
+    .checkbox {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      border: 2px solid #3A3A4A;
+      flex-shrink: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      background: transparent;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .checkbox.checked {
+      background: #8B78D8;
+      border-color: #8B78D8;
+    }
+
+    .checkbox svg {
+      display: none;
+    }
+
+    .checkbox.checked svg {
+      display: block;
+    }
+
+    .item-text {
+      flex: 1;
+      font-size: 15px;
+      line-height: 1.4;
+      color: #E8E8F0;
+      transition: all 0.2s;
+    }
+
+    .item-text.done {
+      text-decoration: line-through;
+      color: #555;
+    }
+
+    .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .note-btn, .delete-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 6px;
+      font-size: 16px;
+      line-height: 1;
+      -webkit-tap-highlight-color: transparent;
+      border-radius: 6px;
+    }
+
+    .note-btn { color: #444; }
+    .note-btn.has-note { color: #8B78D8; }
+    .delete-btn { color: #3A3A4A; font-size: 20px; }
+
+    /* ── Note area ── */
+    .note-area {
+      padding-bottom: 10px;
+    }
+
+    .note-input {
+      width: 100%;
+      background: #0E0E1A;
+      border: 1px solid #2A2A3A;
+      border-radius: 12px;
+      padding: 10px 13px;
+      color: #C8C8E0;
+      font-size: 14px;
+      line-height: 1.5;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+    }
+
+    .note-input::placeholder { color: #444; }
+
+    /* ── Add task ── */
+    .add-trigger {
+      background: none;
+      border: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #8B78D8;
+      cursor: pointer;
+      padding: 10px 0 4px;
+      display: block;
+      width: 100%;
+      text-align: left;
+      border-top: 1px solid #222233;
+      margin-top: 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .add-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 0 4px;
+      border-top: 1px solid #222233;
+      margin-top: 4px;
+    }
+
+    .add-input {
+      flex: 1;
+      background: #0E0E1A;
+      border: 1px solid #2A2A3A;
+      border-radius: 10px;
+      padding: 9px 12px;
+      color: #E8E8F0;
+      font-size: 14px;
+      outline: none;
+      font-family: inherit;
+    }
+
+    .add-input::placeholder { color: #444; }
+
+    .add-confirm {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      background: #8B78D8;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .add-cancel {
+      background: none;
+      border: 1px solid #2A2A3A;
+      border-radius: 10px;
+      color: #666;
+      padding: 9px 11px;
+      cursor: pointer;
+      font-size: 14px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── All done banner ── */
+    .done-banner {
+      text-align: center;
+      padding: 16px;
+      font-size: 15px;
+      color: #5CC98A;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+  const DEFAULT_ITEMS = [
+    { id: '1', text: 'No cheat meals or junk food' },
+    { id: '2', text: 'Drink 2 Yeti bottles of water' },
+    { id: '3', text: 'Read minimum 10 pages of current book' },
+    { id: '4', text: 'Minimum of 15 minutes physical activity' },
+    { id: '5', text: 'Journal daily reflection' },
+  ];
+
+  function getTodayKey() {
+    return new Date().toDateString();
+  }
+
+  function load(key, fallback) {
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+    catch { return fallback; }
+  }
+
+  function save(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); } catch {}
+  }
+
+  // ── State ──
+  let items = load('dh_items', DEFAULT_ITEMS);
+
+  let checkedData = load('dh_checked', {});
+  if (checkedData.date !== getTodayKey()) {
+    checkedData = { date: getTodayKey(), state: {} };
+    save('dh_checked', checkedData);
+  }
+
+  let notes = load('dh_notes', {});
+  let expandedNote = null;
+  let addingNew = false;
+
+  // ── Render ──
+  function render() {
+    const app = document.getElementById('app');
+    const total = items.length;
+    const done = Object.values(checkedData.state).filter(Boolean).length;
+    const pct = total === 0 ? 0 : Math.round((done / total) * 100);
+    const allDone = pct === 100 && total > 0;
+
+    const dayName = new Date().toLocaleDateString('en-AU', { weekday: 'long' });
+    const dateStr = new Date().toLocaleDateString('en-AU', { month: 'long', day: 'numeric' });
+
+    app.innerHTML = `
+      <div class="header">
+        <div class="header-top">
+          <div>
+            <div class="day-label">${dayName}</div>
+            <div class="date-label">${dateStr}</div>
+          </div>
+          <button class="reset-btn" onclick="resetAll()" title="Reset all">↺</button>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-track">
+            <div class="progress-fill ${allDone ? 'complete' : ''}" style="width:${pct}%"></div>
+          </div>
+          <div class="progress-label">${allDone ? '🎉 All done!' : `${done} of ${total}`}</div>
+        </div>
+      </div>
+
+      <div class="body">
+        <div class="card">
+          ${items.map((item, i) => {
+            const isDone = !!checkedData.state[item.id];
+            const isExpanded = expandedNote === item.id;
+            const hasNote = !!(notes[item.id] || '').trim();
+            return `
+              <div class="item-wrap">
+                <div class="item-row ${isDone ? 'done' : ''}">
+                  <button class="checkbox ${isDone ? 'checked' : ''}" onclick="toggle('${item.id}')">
+                    <svg width="11" height="9" viewBox="0 0 11 9" fill="none">
+                      <path d="M1 4L4 7.5L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                  <span class="item-text ${isDone ? 'done' : ''}">${escHtml(item.text)}</span>
+                  <div class="item-actions">
+                    <button class="note-btn ${hasNote ? 'has-note' : ''}" onclick="toggleNote('${item.id}')" title="Note">
+                      ${hasNote ? '📝' : '✏️'}
+                    </button>
+                    <button class="delete-btn" onclick="deleteItem('${item.id}')">×</button>
+                  </div>
+                </div>
+                ${isExpanded ? `
+                  <div class="note-area">
+                    <textarea class="note-input" rows="3" placeholder="Add a note…"
+                      oninput="updateNote('${item.id}', this.value)"
+                      onblur="saveNote('${item.id}', this.value)"
+                    >${escHtml(notes[item.id] || '')}</textarea>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          }).join('')}
+
+          ${addingNew ? `
+            <div class="add-row">
+              <input class="add-input" id="new-task-input" placeholder="New task…"
+                onkeydown="handleAddKey(event)" autofocus />
+              <button class="add-confirm" onclick="confirmAdd()">Add</button>
+              <button class="add-cancel" onclick="cancelAdd()">✕</button>
+            </div>
+          ` : `
+            <button class="add-trigger" onclick="startAdd()">+ Add task</button>
+          `}
+        </div>
+
+        ${allDone ? `<div class="done-banner">You crushed it today! 💪</div>` : ''}
+      </div>
+    `;
+
+    // Focus textarea if note just expanded
+    if (expandedNote) {
+      const ta = app.querySelector('textarea');
+      if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+    }
+    if (addingNew) {
+      const inp = document.getElementById('new-task-input');
+      if (inp) inp.focus();
+    }
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── Actions ──
+  function toggle(id) {
+    checkedData.state[id] = !checkedData.state[id];
+    save('dh_checked', checkedData);
+    render();
+  }
+
+  function toggleNote(id) {
+    expandedNote = expandedNote === id ? null : id;
+    render();
+  }
+
+  function updateNote(id, val) {
+    notes[id] = val;
+  }
+
+  function saveNote(id, val) {
+    notes[id] = val;
+    save('dh_notes', notes);
+    render();
+  }
+
+  function deleteItem(id) {
+    items = items.filter(i => i.id !== id);
+    delete checkedData.state[id];
+    delete notes[id];
+    if (expandedNote === id) expandedNote = null;
+    save('dh_items', items);
+    save('dh_checked', checkedData);
+    save('dh_notes', notes);
+    render();
+  }
+
+  function resetAll() {
+    checkedData = { date: getTodayKey(), state: {} };
+    save('dh_checked', checkedData);
+    render();
+  }
+
+  function startAdd() {
+    addingNew = true;
+    render();
+  }
+
+  function cancelAdd() {
+    addingNew = false;
+    render();
+  }
+
+  function confirmAdd() {
+    const inp = document.getElementById('new-task-input');
+    const text = inp ? inp.value.trim() : '';
+    if (!text) return;
+    const newItem = { id: 'item_' + Date.now(), text };
+    items.push(newItem);
+    save('dh_items', items);
+    addingNew = false;
+    render();
+  }
+
+  function handleAddKey(e) {
+    if (e.key === 'Enter') confirmAdd();
+    if (e.key === 'Escape') cancelAdd();
+  }
+
+  // ── Auto-reset at midnight ──
+  function checkMidnight() {
+    if (checkedData.date !== getTodayKey()) {
+      checkedData = { date: getTodayKey(), state: {} };
+      save('dh_checked', checkedData);
+      render();
+    }
+  }
+  setInterval(checkMidnight, 60000);
+
+  // ── Init ──
+  render();
+</script>
+</body>
+</html>

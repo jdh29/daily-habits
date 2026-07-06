@@ -22,12 +22,12 @@
     #app {
       max-width: 430px;
       margin: 0 auto;
-      padding-bottom: 48px;
+      padding-bottom: 60px;
     }
 
     /* ── Header ── */
     .header {
-      padding: calc(env(safe-area-inset-top) + 40px) 24px 24px;
+      padding: calc(env(safe-area-inset-top) + 40px) 24px 20px;
       background: linear-gradient(180deg, #1A1A2E 0%, #12121C 100%);
       border-bottom: 1px solid #1F1F30;
     }
@@ -36,7 +36,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
     }
 
     .day-label {
@@ -50,6 +50,25 @@
       font-size: 14px;
       color: #888;
       margin-top: 3px;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .streak-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #1F1A35;
+      border: 1px solid #3A2E6A;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #8B78D8;
     }
 
     .reset-btn {
@@ -72,6 +91,7 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      margin-top: 16px;
     }
 
     .progress-track {
@@ -89,9 +109,7 @@
       background: linear-gradient(90deg, #F4A24D, #8B78D8);
     }
 
-    .progress-fill.complete {
-      background: #5CC98A;
-    }
+    .progress-fill.complete { background: #5CC98A; }
 
     .progress-label {
       font-size: 12px;
@@ -99,6 +117,74 @@
       white-space: nowrap;
       min-width: 72px;
       text-align: right;
+    }
+
+    /* ── Date nav ── */
+    .date-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: #15151F;
+      border-bottom: 1px solid #1F1F30;
+    }
+
+    .date-nav-btn {
+      background: none;
+      border: 1px solid #2A2A3A;
+      color: #888;
+      font-size: 18px;
+      border-radius: 8px;
+      width: 34px;
+      height: 34px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .date-nav-btn:disabled {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .date-nav-center {
+      text-align: center;
+    }
+
+    .date-nav-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: #E8E8F0;
+    }
+
+    .date-nav-sub {
+      font-size: 11px;
+      color: #888;
+      margin-top: 1px;
+    }
+
+    .today-btn {
+      background: #8B78D8;
+      border: none;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 6px;
+      padding: 4px 10px;
+      cursor: pointer;
+      margin-top: 4px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .past-banner {
+      background: #1A1510;
+      border-bottom: 1px solid #2A2010;
+      padding: 8px 24px;
+      font-size: 12px;
+      color: #F4A24D;
+      text-align: center;
     }
 
     /* ── Body ── */
@@ -117,13 +203,8 @@
     }
 
     /* ── Task item ── */
-    .item-wrap {
-      border-top: 1px solid #222233;
-    }
-
-    .item-wrap:first-child {
-      border-top: none;
-    }
+    .item-wrap { border-top: 1px solid #222233; }
+    .item-wrap:first-child { border-top: none; }
 
     .item-row {
       display: flex;
@@ -133,9 +214,7 @@
       transition: opacity 0.2s;
     }
 
-    .item-row.done {
-      opacity: 0.45;
-    }
+    .item-row.done { opacity: 0.45; }
 
     .checkbox {
       width: 26px;
@@ -152,18 +231,9 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .checkbox.checked {
-      background: #8B78D8;
-      border-color: #8B78D8;
-    }
-
-    .checkbox svg {
-      display: none;
-    }
-
-    .checkbox.checked svg {
-      display: block;
-    }
+    .checkbox.checked { background: #8B78D8; border-color: #8B78D8; }
+    .checkbox svg { display: none; }
+    .checkbox.checked svg { display: block; }
 
     .item-text {
       flex: 1;
@@ -173,10 +243,7 @@
       transition: all 0.2s;
     }
 
-    .item-text.done {
-      text-decoration: line-through;
-      color: #555;
-    }
+    .item-text.done { text-decoration: line-through; color: #555; }
 
     .item-actions {
       display: flex;
@@ -201,9 +268,7 @@
     .delete-btn { color: #3A3A4A; font-size: 20px; }
 
     /* ── Note area ── */
-    .note-area {
-      padding-bottom: 10px;
-    }
+    .note-area { padding-bottom: 10px; }
 
     .note-input {
       width: 100%;
@@ -283,7 +348,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* ── All done banner ── */
+    /* ── Done banner ── */
     .done-banner {
       text-align: center;
       padding: 16px;
@@ -292,6 +357,48 @@
       font-weight: 600;
       letter-spacing: 0.2px;
     }
+
+    /* ── History summary card ── */
+    .history-card {
+      background: #1A1A28;
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid #222233;
+    }
+
+    .history-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 12px;
+    }
+
+    .history-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-top: 1px solid #1F1F30;
+      font-size: 14px;
+    }
+
+    .history-row:first-of-type { border-top: none; }
+
+    .history-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .history-dot.complete { background: #5CC98A; }
+    .history-dot.partial { background: #F4A24D; }
+    .history-dot.empty { background: #2A2A3A; }
+
+    .history-date { color: #AAAACC; flex: 1; margin-left: 10px; }
+    .history-count { color: #666; font-size: 13px; }
   </style>
 </head>
 <body>
@@ -306,8 +413,20 @@
     { id: '5', text: 'Journal daily reflection' },
   ];
 
-  function getTodayKey() {
-    return new Date().toDateString();
+  function dateKey(d) {
+    return d.toDateString();
+  }
+
+  function formatDisplay(d) {
+    return d.toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  function formatShort(d) {
+    return d.toLocaleDateString('en-AU', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function isToday(d) {
+    return dateKey(d) === dateKey(new Date());
   }
 
   function load(key, fallback) {
@@ -321,27 +440,107 @@
 
   // ── State ──
   let items = load('dh_items', DEFAULT_ITEMS);
-
-  let checkedData = load('dh_checked', {});
-  if (checkedData.date !== getTodayKey()) {
-    checkedData = { date: getTodayKey(), state: {} };
-    save('dh_checked', checkedData);
-  }
-
-  let notes = load('dh_notes', {});
+  let allChecked = load('dh_all_checked', {}); // { "Mon Jul 7 2026": { id: bool, ... }, ... }
+  let allNotes = load('dh_all_notes', {});     // { "Mon Jul 7 2026": { id: "note text", ... }, ... }
+  let viewDate = new Date();
   let expandedNote = null;
   let addingNew = false;
+
+  // Migrate old single-day data if exists
+  (function migrate() {
+    const oldChecked = load('dh_checked', null);
+    const oldNotes = load('dh_notes', null);
+    if (oldChecked && oldChecked.date && oldChecked.state) {
+      if (!allChecked[oldChecked.date]) {
+        allChecked[oldChecked.date] = oldChecked.state;
+        save('dh_all_checked', allChecked);
+      }
+    }
+    if (oldNotes) {
+      const today = dateKey(new Date());
+      if (!allNotes[today]) {
+        allNotes[today] = oldNotes;
+        save('dh_all_notes', allNotes);
+      }
+    }
+  })();
+
+  function getCheckedForDate(d) {
+    return allChecked[dateKey(d)] || {};
+  }
+
+  function getNotesForDate(d) {
+    return allNotes[dateKey(d)] || {};
+  }
+
+  function setCheckedForDate(d, state) {
+    allChecked[dateKey(d)] = state;
+    save('dh_all_checked', allChecked);
+  }
+
+  function setNotesForDate(d, notes) {
+    allNotes[dateKey(d)] = notes;
+    save('dh_all_notes', allNotes);
+  }
+
+  // ── Streak ──
+  function calcStreak() {
+    let streak = 0;
+    let d = new Date();
+    // If today not complete, start checking from yesterday
+    const todayChecked = getCheckedForDate(d);
+    const todayDone = Object.values(todayChecked).filter(Boolean).length;
+    if (todayDone < items.length) {
+      d.setDate(d.getDate() - 1);
+    }
+    for (let i = 0; i < 365; i++) {
+      const checked = getCheckedForDate(d);
+      const done = Object.values(checked).filter(Boolean).length;
+      if (done >= items.length && items.length > 0) {
+        streak++;
+        d.setDate(d.getDate() - 1);
+      } else {
+        break;
+      }
+    }
+    return streak;
+  }
+
+  // ── Recent history (last 7 days) ──
+  function getRecentHistory() {
+    const days = [];
+    for (let i = 1; i <= 7; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const checked = getCheckedForDate(d);
+      const done = Object.values(checked).filter(Boolean).length;
+      days.push({ date: d, done, total: items.length });
+    }
+    return days;
+  }
 
   // ── Render ──
   function render() {
     const app = document.getElementById('app');
+    const checked = getCheckedForDate(viewDate);
+    const notes = getNotesForDate(viewDate);
     const total = items.length;
-    const done = Object.values(checkedData.state).filter(Boolean).length;
+    const done = Object.values(checked).filter(Boolean).length;
     const pct = total === 0 ? 0 : Math.round((done / total) * 100);
     const allDone = pct === 100 && total > 0;
+    const viewing = isToday(viewDate);
+    const streak = calcStreak();
+    const history = getRecentHistory();
 
-    const dayName = new Date().toLocaleDateString('en-AU', { weekday: 'long' });
-    const dateStr = new Date().toLocaleDateString('en-AU', { month: 'long', day: 'numeric' });
+    const dayName = viewDate.toLocaleDateString('en-AU', { weekday: 'long' });
+    const dateStr = viewDate.toLocaleDateString('en-AU', { month: 'long', day: 'numeric' });
+
+    // Prev/next dates
+    const prevDate = new Date(viewDate);
+    prevDate.setDate(prevDate.getDate() - 1);
+    const nextDate = new Date(viewDate);
+    nextDate.setDate(nextDate.getDate() + 1);
+    const canGoNext = !isToday(viewDate);
 
     app.innerHTML = `
       <div class="header">
@@ -350,7 +549,10 @@
             <div class="day-label">${dayName}</div>
             <div class="date-label">${dateStr}</div>
           </div>
-          <button class="reset-btn" onclick="resetAll()" title="Reset all">↺</button>
+          <div class="header-right">
+            ${streak > 0 ? `<div class="streak-badge">🔥 ${streak} day${streak !== 1 ? 's' : ''}</div>` : ''}
+            ${viewing ? `<button class="reset-btn" onclick="resetAll()" title="Reset today">↺</button>` : ''}
+          </div>
         </div>
         <div class="progress-wrap">
           <div class="progress-track">
@@ -360,10 +562,22 @@
         </div>
       </div>
 
+      <!-- Date navigation -->
+      <div class="date-nav">
+        <button class="date-nav-btn" onclick="goToPrev()">‹</button>
+        <div class="date-nav-center">
+          <div class="date-nav-label">${viewing ? 'Today' : formatShort(viewDate)}</div>
+          ${!viewing ? `<button class="today-btn" onclick="goToToday()">Back to Today</button>` : '<div class="date-nav-sub">Swipe to view past days</div>'}
+        </div>
+        <button class="date-nav-btn" onclick="goToNext()" ${!canGoNext ? 'disabled' : ''}>›</button>
+      </div>
+
+      ${!viewing ? `<div class="past-banner">📅 Viewing ${formatShort(viewDate)} — tap tasks to edit</div>` : ''}
+
       <div class="body">
         <div class="card">
           ${items.map((item, i) => {
-            const isDone = !!checkedData.state[item.id];
+            const isDone = !!checked[item.id];
             const isExpanded = expandedNote === item.id;
             const hasNote = !!(notes[item.id] || '').trim();
             return `
@@ -376,16 +590,13 @@
                   </button>
                   <span class="item-text ${isDone ? 'done' : ''}">${escHtml(item.text)}</span>
                   <div class="item-actions">
-                    <button class="note-btn ${hasNote ? 'has-note' : ''}" onclick="toggleNote('${item.id}')" title="Note">
-                      ${hasNote ? '📝' : '✏️'}
-                    </button>
-                    <button class="delete-btn" onclick="deleteItem('${item.id}')">×</button>
+                    <button class="note-btn ${hasNote ? 'has-note' : ''}" onclick="toggleNote('${item.id}')">${hasNote ? '📝' : '✏️'}</button>
+                    ${viewing ? `<button class="delete-btn" onclick="deleteItem('${item.id}')">×</button>` : ''}
                   </div>
                 </div>
                 ${isExpanded ? `
                   <div class="note-area">
                     <textarea class="note-input" rows="3" placeholder="Add a note…"
-                      oninput="updateNote('${item.id}', this.value)"
                       onblur="saveNote('${item.id}', this.value)"
                     >${escHtml(notes[item.id] || '')}</textarea>
                   </div>
@@ -394,26 +605,44 @@
             `;
           }).join('')}
 
-          ${addingNew ? `
+          ${viewing ? (addingNew ? `
             <div class="add-row">
-              <input class="add-input" id="new-task-input" placeholder="New task…"
-                onkeydown="handleAddKey(event)" autofocus />
+              <input class="add-input" id="new-task-input" placeholder="New task…" onkeydown="handleAddKey(event)" autofocus />
               <button class="add-confirm" onclick="confirmAdd()">Add</button>
               <button class="add-cancel" onclick="cancelAdd()">✕</button>
             </div>
           ` : `
             <button class="add-trigger" onclick="startAdd()">+ Add task</button>
-          `}
+          `) : ''}
         </div>
 
-        ${allDone ? `<div class="done-banner">You crushed it today! 💪</div>` : ''}
+        ${allDone && viewing ? `<div class="done-banner">You crushed it today! 💪</div>` : ''}
+
+        <!-- History -->
+        <div class="history-card">
+          <div class="history-title">Last 7 Days</div>
+          ${history.map(h => {
+            const dotClass = h.done === 0 ? 'empty' : h.done >= h.total ? 'complete' : 'partial';
+            const label = h.done === 0 ? 'No data' : h.done >= h.total ? 'All done ✓' : `${h.done}/${h.total} done`;
+            return `
+              <div class="history-row" onclick="goToDate(${h.date.getTime()})" style="cursor:pointer">
+                <div class="history-dot ${dotClass}"></div>
+                <div class="history-date">${formatShort(h.date)}</div>
+                <div class="history-count">${label}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
       </div>
     `;
 
-    // Focus textarea if note just expanded
     if (expandedNote) {
       const ta = app.querySelector('textarea');
-      if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      if (ta) {
+        const val = ta.value;
+        ta.focus();
+        ta.setSelectionRange(val.length, val.length);
+      }
     }
     if (addingNew) {
       const inp = document.getElementById('new-task-input');
@@ -429,8 +658,9 @@
 
   // ── Actions ──
   function toggle(id) {
-    checkedData.state[id] = !checkedData.state[id];
-    save('dh_checked', checkedData);
+    const checked = { ...getCheckedForDate(viewDate) };
+    checked[id] = !checked[id];
+    setCheckedForDate(viewDate, checked);
     render();
   }
 
@@ -439,49 +669,33 @@
     render();
   }
 
-  function updateNote(id, val) {
-    notes[id] = val;
-  }
-
   function saveNote(id, val) {
+    const notes = { ...getNotesForDate(viewDate) };
     notes[id] = val;
-    save('dh_notes', notes);
+    setNotesForDate(viewDate, notes);
     render();
   }
 
   function deleteItem(id) {
     items = items.filter(i => i.id !== id);
-    delete checkedData.state[id];
-    delete notes[id];
-    if (expandedNote === id) expandedNote = null;
     save('dh_items', items);
-    save('dh_checked', checkedData);
-    save('dh_notes', notes);
+    if (expandedNote === id) expandedNote = null;
     render();
   }
 
   function resetAll() {
-    checkedData = { date: getTodayKey(), state: {} };
-    save('dh_checked', checkedData);
+    setCheckedForDate(viewDate, {});
     render();
   }
 
-  function startAdd() {
-    addingNew = true;
-    render();
-  }
-
-  function cancelAdd() {
-    addingNew = false;
-    render();
-  }
+  function startAdd() { addingNew = true; render(); }
+  function cancelAdd() { addingNew = false; render(); }
 
   function confirmAdd() {
     const inp = document.getElementById('new-task-input');
     const text = inp ? inp.value.trim() : '';
     if (!text) return;
-    const newItem = { id: 'item_' + Date.now(), text };
-    items.push(newItem);
+    items.push({ id: 'item_' + Date.now(), text });
     save('dh_items', items);
     addingNew = false;
     render();
@@ -492,17 +706,40 @@
     if (e.key === 'Escape') cancelAdd();
   }
 
-  // ── Auto-reset at midnight ──
-  function checkMidnight() {
-    if (checkedData.date !== getTodayKey()) {
-      checkedData = { date: getTodayKey(), state: {} };
-      save('dh_checked', checkedData);
-      render();
-    }
+  function goToPrev() {
+    expandedNote = null;
+    addingNew = false;
+    viewDate = new Date(viewDate);
+    viewDate.setDate(viewDate.getDate() - 1);
+    render();
   }
-  setInterval(checkMidnight, 60000);
 
-  // ── Init ──
+  function goToNext() {
+    if (isToday(viewDate)) return;
+    expandedNote = null;
+    addingNew = false;
+    viewDate = new Date(viewDate);
+    viewDate.setDate(viewDate.getDate() + 1);
+    render();
+  }
+
+  function goToToday() {
+    expandedNote = null;
+    addingNew = false;
+    viewDate = new Date();
+    render();
+  }
+
+  function goToDate(ts) {
+    expandedNote = null;
+    addingNew = false;
+    viewDate = new Date(ts);
+    render();
+  }
+
+  // ── Auto-reset check at midnight ──
+  setInterval(() => { render(); }, 60000);
+
   render();
 </script>
 </body>

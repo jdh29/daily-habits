@@ -1,4 +1,4 @@
-const CACHE_NAME = 'daily-habits-v1';
+const CACHE_NAME = 'daily-habits-v2';
 const ASSETS = ['/'];
 
 self.addEventListener('install', e => {

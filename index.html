@@ -7,6 +7,9 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Daily Habits" />
   <meta name="theme-color" content="#12121C" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon-180.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
   <title>Daily Habits</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -406,11 +409,11 @@
 
 <script>
   const DEFAULT_ITEMS = [
-    { id: '1', text: 'No cheat meals or junk food' },
     { id: '2', text: 'Drink 2 Yeti bottles of water' },
     { id: '3', text: 'Read minimum 10 pages of current book' },
     { id: '4', text: 'Minimum of 15 minutes physical activity' },
     { id: '5', text: 'Journal daily reflection' },
+    { id: '6', text: 'Practice box breathing' },
   ];
 
   function dateKey(d) {
@@ -439,7 +442,7 @@
   }
 
   // ── State ──
-  let items = load('dh_items', DEFAULT_ITEMS);
+  let items = load('dh_items_v2', DEFAULT_ITEMS);
   let allChecked = load('dh_all_checked', {}); // { "Mon Jul 7 2026": { id: bool, ... }, ... }
   let allNotes = load('dh_all_notes', {});     // { "Mon Jul 7 2026": { id: "note text", ... }, ... }
   let viewDate = new Date();
@@ -678,7 +681,7 @@
 
   function deleteItem(id) {
     items = items.filter(i => i.id !== id);
-    save('dh_items', items);
+    save('dh_items_v2', items);
     if (expandedNote === id) expandedNote = null;
     render();
   }
@@ -696,7 +699,7 @@
     const text = inp ? inp.value.trim() : '';
     if (!text) return;
     items.push({ id: 'item_' + Date.now(), text });
-    save('dh_items', items);
+    save('dh_items_v2', items);
     addingNew = false;
     render();
   }
